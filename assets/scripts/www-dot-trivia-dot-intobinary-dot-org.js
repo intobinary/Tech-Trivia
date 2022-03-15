@@ -216,7 +216,8 @@ function setTimer() {
 	timerInterval = setInterval(function() {
 		if(timerTotalSecForCurrentQuestion >= 0) {
 			timerTick = timerTotalSecForCurrentQuestion--;
-			timerTag.textContent = timerTick;
+			if(timerTick < 10) { timerTag.textContent = "0" + timerTick; }
+			else { timerTag.textContent = timerTick; }
 			
 			document.querySelector(".js-timer").addEventListener("click", function() {
 				answerSkipped = true;
