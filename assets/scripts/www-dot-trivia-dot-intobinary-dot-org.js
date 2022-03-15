@@ -88,7 +88,7 @@ var gameTag = document.querySelector(".js-trivia"),
  var quiz = [], currentQuestion = [],
 	qNoIndex = 0, qNoTotal = 100,
 	sectionScore = 0, questionsSeen = [],
-	answerScored = false, answerGiven = false,
+	answerScored = false, answerGiven = false, answerSkipped = false,
 	timerTotalSecPerQuestion = 20,
 	timerInterval = "";
 /*** END VARIABLES & OBJECTS ***/
@@ -99,10 +99,10 @@ playQuiz(section1);
 /*** END SETUP ***/
 
 /*** ACTIONS ***/
-document.querySelector(".js-next").addEventListener("click", function() {
+buttonNext.addEventListener("click", function() {
 	nextQuestion();
 });
-document.querySelector(".js-done").addEventListener("click", function() {
+buttonDone.addEventListener("click", function() {
 	alert("YOUR SCORE:" + sectionScore + "/" + qNoTotal);
 	toggleVisibility(buttonDone);
 });
@@ -129,8 +129,10 @@ function preparePage() {
 	answerGiven = false;
 	answerScored = false;
 	
-	document.querySelector(".js-trivia-answer.is-selected").classList.remove("is-wrong");
-	document.querySelector(".js-trivia-answer.is-selected").classList.remove("is-selected");
+	if(answerSkipped == false) {
+		document.querySelector(".js-trivia-answer.is-selected").classList.remove("is-wrong");
+		document.querySelector(".js-trivia-answer.is-selected").classList.remove("is-selected");
+	} else { answerSkipped == false; }
 	document.querySelector(".js-trivia-answer.is-correct").classList.remove("is-correct");
 	gameTag.setAttribute("appState", "quiz");
 
@@ -217,6 +219,7 @@ function setTimer() {
 			timerTag.textContent = timerTick;
 			
 			document.querySelector(".js-timer").addEventListener("click", function() {
+				answerSkipped = true;
 				revealAnswer();
 			});
 			
@@ -267,6 +270,7 @@ function setTimer() {
 				});
 		}
 		else {
+			answerSkipped = true;
 			revealAnswer();
 		}
 	}, 1000);
