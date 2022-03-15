@@ -130,13 +130,18 @@ function preparePage() {
 	answerScored = false;
 	
 	if(answerSkipped == false) {
-		document.querySelector(".js-trivia-answer.is-selected").classList.remove("is-wrong");
-		document.querySelector(".js-trivia-answer.is-selected").classList.remove("is-selected");
+		var theTag = document.querySelector(".js-trivia-answer.is-selected");
+		
+		theTag.classList.remove("is-selected");
+
+		if(theTag.classList.contains("is-wrong")) { theTag.classList.remove("is-wrong"); }
 	} else { answerSkipped == false; }
+	
 	document.querySelector(".js-trivia-answer.is-correct").classList.remove("is-correct");
 	gameTag.setAttribute("appState", "quiz");
 
 	toggleVisibility(buttonNext);
+	
 	setTimer();
 }
 
